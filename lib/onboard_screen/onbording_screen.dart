@@ -1,10 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:shopapp/shared/cache_helper.dart';
 import 'package:shopapp/shared/companent.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../login/shop_login.dart';
+
+
 
 class BoardingModel {
   final String image;
@@ -32,9 +35,9 @@ class _OnBoard_ScreenState extends State<OnBoard_Screen> {
       BoardingModel(
           body: "Page 1", image: 'assets/images/hone.jpg', titel: 'Screen1'),
       BoardingModel(
-          body: "Page 2", image: 'assets/images/naruto.png', titel: 'Screen2'),
+          body: "Page 2", image: 'assets/images/hone.jpg', titel: 'Screen2'),
       BoardingModel(
-          body: "Page 3", image: 'assets/images/boroto.jpg', titel: 'Screen3'),
+          body: "Page 3", image: 'assets/images/hone.jpg', titel: 'Screen3'),
       // BoardingModel(body: "", image: '', titel: ''),
     ];
 
@@ -43,7 +46,7 @@ class _OnBoard_ScreenState extends State<OnBoard_Screen> {
         actions: [
           TextButton(
               onPressed: () {
-                navigetorAndFinish(context, ShopLoginScreen());
+                submit();
               },
               child: Text(
                 "SKIP",
@@ -98,7 +101,7 @@ class _OnBoard_ScreenState extends State<OnBoard_Screen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      navigetorAndFinish(context, ShopLoginScreen());
+                      submit();
                     } else {
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 750),
@@ -113,6 +116,13 @@ class _OnBoard_ScreenState extends State<OnBoard_Screen> {
         ),
       ),
     );
+  }
+  void submit() {
+    CacheHelper.saveData(key: 'onBording', value: true).then((value) {
+      if (value) {
+        navigetorAndFinish(context, ShopLoginScreen());
+      }
+    });
   }
 }
 

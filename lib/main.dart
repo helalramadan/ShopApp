@@ -1,18 +1,31 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shopapp/login/shop_login.dart';
 import 'package:shopapp/shared/block_of_server.dart';
+import 'package:shopapp/shared/cache_helper.dart';
 import 'package:shopapp/shared/dio_helper.dart';
 
 import 'onboard_screen/onbording_screen.dart';
 
 void main() {
-  runApp(MyApp());
-
-  MyBlocObserver();
-  DioHelper.init();
+  BlocOverrides.runZoned(
+    //i need know it how to worke
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      DioHelper.init();
+      await CacheHelper.init();
+      bool onBording = CacheHelper.getBoolean(key: 'onBording');
+      runApp(MyApp(onBording));
+    },
+    blocObserver: MyBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool onBording;
+  MyApp(
+    this.onBording,
+  ) : super();
 
   // This widget is the root of your application.
   @override
@@ -32,7 +45,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const OnBoard_Screen(),
+      home: onBording ? ShopLoginScreen() : OnBoard_Screen(),
     );
   }
 }
