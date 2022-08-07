@@ -7,8 +7,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../login/shop_login.dart';
 
-
-
 class BoardingModel {
   final String image;
 
@@ -117,6 +115,7 @@ class _OnBoard_ScreenState extends State<OnBoard_Screen> {
       ),
     );
   }
+
   void submit() {
     CacheHelper.saveData(key: 'onBording', value: true).then((value) {
       if (value) {

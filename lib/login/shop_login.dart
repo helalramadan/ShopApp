@@ -1,12 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopapp/Register/ShopeRegister.dart';
-
-import '../shared/companent.dart';
-import 'logincubit/logincubit.dart';
-import 'logincubit/shopstate.dart';
+import 'package:shopapp/layout/shop_layout.dart';
+import 'package:shopapp/login/logincubit/logincubit.dart';
+import 'package:shopapp/login/logincubit/shopstate.dart';
+import 'package:shopapp/shared/cache_helper.dart';
+import 'package:shopapp/shared/companent.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   ShopLoginScreen({Key? key}) : super(key: key);
@@ -25,23 +25,11 @@ class ShopLoginScreen extends StatelessWidget {
             if (state.loginModel.status!) {
               print('message: ${state.loginModel.message!}');
               print('token: ${state.loginModel.data!.token}');
-              Fluttertoast.showToast(
-                  msg: state.loginModel.message!,
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 5,
-                  backgroundColor: Colors.green,
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+              CacheHelper.saveData(
+                  key: 'token', value: state.loginModel.data!.token);
+              navigetorAndFinish(context, ShopLayout_Screen());
             } else {
-              Fluttertoast.showToast(
-                  msg: state.loginModel.message!,
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 5,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+              showTost(msg: state.loginModel.message!, state: TostState.ERROR);
               print(state.loginModel.message!);
             }
           }

@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shopapp/layout/shop_layout.dart';
 import 'package:shopapp/login/shop_login.dart';
+import 'package:shopapp/onboard_screen/onbording_screen.dart';
 import 'package:shopapp/shared/block_of_server.dart';
 import 'package:shopapp/shared/cache_helper.dart';
 import 'package:shopapp/shared/dio_helper.dart';
-
-import 'onboard_screen/onbording_screen.dart';
 
 void main() {
   BlocOverrides.runZoned(
@@ -14,17 +14,26 @@ void main() {
       WidgetsFlutterBinding.ensureInitialized();
       DioHelper.init();
       await CacheHelper.init();
-      bool onBording = CacheHelper.getBoolean(key: 'onBording');
-      runApp(MyApp(onBording));
+      Widget widget;
+      bool? onBording = CacheHelper.getBoolean(key: 'onBording');
+      String? token = CacheHelper.getBoolean(key: 'token');
+      if (onBording != null) {
+        if (token != null) {
+          widget = ShopLayout_Screen();
+        } else
+          widget = ShopLoginScreen();
+      } else
+        widget = OnBoard_Screen();
+      runApp(MyApp(widget));
     },
     blocObserver: MyBlocObserver(),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final bool onBording;
+  final Widget StartWidget;
   MyApp(
-    this.onBording,
+    this.StartWidget,
   ) : super();
 
   // This widget is the root of your application.
@@ -45,7 +54,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: onBording ? ShopLoginScreen() : OnBoard_Screen(),
+      home: StartWidget,
     );
   }
 }

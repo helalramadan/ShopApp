@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future navigetorAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
@@ -76,3 +77,30 @@ Widget defultButton({
         borderRadius: BorderRadius.circular(radius),
       ),
     );
+void showTost({required String msg, required TostState state}) =>
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: changeColor(state),
+        textColor: Colors.white,
+        fontSize: 16.0);
+
+enum TostState { SUCCESS, ERROR, WARNING }
+
+Color changeColor(TostState state) {
+  Color color;
+  switch (state) {
+    case TostState.SUCCESS:
+      color = Colors.green;
+      break;
+    case TostState.ERROR:
+      color = Colors.red;
+      break;
+    case TostState.WARNING:
+      color = Colors.amber;
+      break;
+  }
+  return color;
+}

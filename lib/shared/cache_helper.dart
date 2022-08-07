@@ -30,4 +30,7 @@ class CacheHelper {
     if (value is bool) return await sharedPreferenc!.setBool(key, value);
     return await sharedPreferenc!.setDouble(key, value);
   }
+static Future <bool?>removeData(key)async{
+return await sharedPreferenc!.remove(key);
+}
 }
