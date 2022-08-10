@@ -5,6 +5,8 @@ class ShopSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Container(
+      child: Text('Settings'),
+    );
   }
 }
