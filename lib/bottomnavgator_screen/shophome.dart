@@ -9,8 +9,8 @@ class ShopHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopState>(
       listener: (context, state) {},
-      builder: (context, state) {
-        // var cubit = ShopCubit.get(context);
+      builder: (ctx, state) {
+        var cubit = ShopCubit.get(ctx);
         return Scaffold(
           appBar: AppBar(),
           body: Center(
@@ -18,11 +18,10 @@ class ShopHome extends StatelessWidget {
           ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.grey,
             onTap: (index) {
-              ShopCubit.get(context).changeBottomScreen(index);
+              cubit.changeBottomScreen(index);
             },
-            currentIndex: ShopCubit.get(context).currantIndex,
+            currentIndex: cubit.currantIndex,
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(

@@ -42,15 +42,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    MultiBlocProvider(
+    return MultiBlocProvider(
       providers: [BlocProvider(create: (context) => ShopCubit())],
-      child: Text(''),
-    );
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      home: StartWidget,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        home: StartWidget,
+      ),
     );
   }
 }
