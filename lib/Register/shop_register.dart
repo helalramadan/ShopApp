@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ShopeRegister extends StatelessWidget {
-  const ShopeRegister({Key? key}) : super(key: key);
+class ShopRegister extends StatelessWidget {
+  const ShopRegister({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
