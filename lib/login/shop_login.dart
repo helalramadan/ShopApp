@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopapp/Register/ShopeRegister.dart';
-import 'package:shopapp/bottomnavgator_screen/shophome.dart';
+import 'package:shopapp/Register/shop_register.dart';
+import 'package:shopapp/layout/shop_layout.dart';
 import 'package:shopapp/login/logincubit/logincubit.dart';
 import 'package:shopapp/login/logincubit/shopstate.dart';
 import 'package:shopapp/shared/cache_helper.dart';
@@ -27,7 +27,7 @@ class ShopLoginScreen extends StatelessWidget {
               print('token: ${state.loginModel.data!.token}');
               CacheHelper.saveData(
                   key: 'token', value: state.loginModel.data!.token);
-              navigetorAndFinish(context, ShopHome());
+              navigetorAndFinish(context, ShopLayout_Screen());
             } else {
               showTost(msg: state.loginModel.message!, state: TostState.ERROR);
               print(state.loginModel.message!);
@@ -143,7 +143,7 @@ class ShopLoginScreen extends StatelessWidget {
                           const Text("Don\'t Have an Account?"),
                           TextButton(
                               onPressed: () {
-                                navigetorTo(context, ShopeRegister());
+                                navigetorTo(context, ShopRegister());
                               },
                               child: Text("Register".toUpperCase()))
                         ],

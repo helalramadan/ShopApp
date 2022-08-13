@@ -15,18 +15,18 @@ class DioHelper {
   static Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
-    String lang = 'ar',
+    String lang = 'en',
     String? token,
   }) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'lang': lang,
-      'Authorization': token ?? '',
+      'Authorization': token,
     };
 
     return await dio!.get(
       url,
-      queryParameters: query ?? null,
+      queryParameters: query,
     );
   }
 
@@ -40,7 +40,7 @@ class DioHelper {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'lang': lang,
-      'Authorization': token ?? '',
+      'Authorization': token,
     };
 
     return dio!.post(

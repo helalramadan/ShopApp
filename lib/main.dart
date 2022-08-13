@@ -7,6 +7,7 @@ import 'package:shopapp/onboard_screen/onbording_screen.dart';
 import 'package:shopapp/shared/block_of_server.dart';
 import 'package:shopapp/shared/cache_helper.dart';
 import 'package:shopapp/shared/dio_helper.dart';
+import 'package:shopapp/shared/stayle/constans.dart';
 import 'package:shopapp/shared/stayle/themes.dart';
 import 'package:shopapp/shop_cubit/shopcubit.dart';
 
@@ -19,7 +20,7 @@ void main() {
       await CacheHelper.init();
       Widget widget;
       bool? onBording = CacheHelper.getBoolean(key: 'onBording');
-      String? token = CacheHelper.getBoolean(key: 'token');
+      token = CacheHelper.getBoolean(key: 'token');
       if (onBording != null) {
         if (token != null) {
           widget = ShopLayout_Screen();
@@ -43,7 +44,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => ShopCubit())],
+      providers: [
+        BlocProvider(create: (context) => ShopCubit()..getHomeModel())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
