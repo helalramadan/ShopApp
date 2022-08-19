@@ -17,7 +17,7 @@ class ShopHome extends StatelessWidget {
         var cubit = ShopCubit.get(context);
         return ConditionalBuilder(
             condition: cubit.homeModel != null,
-            builder: (context) => HomeBuilder(cubit.homeModel!),
+            builder: (context) => HomeBuilder(cubit.homeModel!, context),
             fallback: (context) => const Center(
                   child: CircularProgressIndicator(),
                 ));
@@ -25,7 +25,7 @@ class ShopHome extends StatelessWidget {
     );
   }
 
-  Widget HomeBuilder(ShopHome_Model model) => SingleChildScrollView(
+  Widget HomeBuilder(ShopHome_Model model, context) => SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
@@ -61,14 +61,16 @@ class ShopHome extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
-                children: List.generate(model.data!.products.length,
-                    (index) => BuildGridView(model.data!.products[index])),
+                children: List.generate(
+                    model.data!.products.length,
+                    (index) =>
+                        BuildGridView(model.data!.products[index], context)),
               ),
             ),
           ],
         ),
       );
-  Widget BuildGridView(ProductsModels model) => Container(
+  Widget BuildGridView(ProductsModels model, context) => Container(
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,15 +131,23 @@ class ShopHome extends StatelessWidget {
                       IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite_border,
-                            size: 16.0,
+                          icon: CircleAvatar(
+                            radius: 15.0,
+                            backgroundColor:
+                                ShopCubit.get(context).favorits.
+                                    ? defaultColor
+                                    : Colors.grey,
+                            child: Icon(
+                              color: Colors.white,
+                              Icons.favorite_border,
+                              size: 16.0,
+                            ),
                           ))
                     ],
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       );
