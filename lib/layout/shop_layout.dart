@@ -18,7 +18,7 @@ class ShopLayout_Screen extends StatelessWidget {
         var cubit = ShopCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Shary'),
+            title: const Text('Haydra Market'),
             actions: [
               IconButton(
                 icon: const Icon(Icons.search),

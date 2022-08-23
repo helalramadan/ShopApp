@@ -20,8 +20,8 @@ Widget defultTextForm({
   Function? onSubmet,
   Function? validator,
   Function? suffixPressed,
-  String? lable,
-  IconData? prefix,
+  required String lable,
+  required IconData prefix,
   IconData? suffix,
   required bool isPass,
 }) =>
@@ -34,7 +34,7 @@ Widget defultTextForm({
       onFieldSubmitted: onSubmet != null ? (s) => onSubmet(s) : null,
       validator: (value) => validator!(value),
       decoration: InputDecoration(
-        label: Text(lable!),
+        label: Text(lable),
         prefixIcon: Icon(prefix),
         suffixIcon: suffix != null
             ? IconButton(
@@ -51,7 +51,7 @@ Widget defultTextForm({
     );
 
 Widget defultButton({
-  Function? onPressed,
+  required Function onPressed,
   double width = double.infinity,
   Color backgraound = Colors.blue,
   required String text,
@@ -63,7 +63,7 @@ Widget defultButton({
       width: double.infinity,
       child: MaterialButton(
         onPressed: () {
-          onPressed!();
+          onPressed();
         },
         child: Text(
           isUppercase ? text.toUpperCase() : text,
@@ -77,6 +77,7 @@ Widget defultButton({
         borderRadius: BorderRadius.circular(radius),
       ),
     );
+
 void showTost({required String msg, required TostState state}) =>
     Fluttertoast.showToast(
         msg: msg,

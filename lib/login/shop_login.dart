@@ -7,6 +7,7 @@ import 'package:shopapp/login/logincubit/logincubit.dart';
 import 'package:shopapp/login/logincubit/shopstate.dart';
 import 'package:shopapp/shared/cache_helper.dart';
 import 'package:shopapp/shared/companent.dart';
+import 'package:shopapp/shared/stayle/constans.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   ShopLoginScreen({Key? key}) : super(key: key);
@@ -26,8 +27,11 @@ class ShopLoginScreen extends StatelessWidget {
               print('message: ${state.loginModel.message!}');
               print('token: ${state.loginModel.data!.token}');
               CacheHelper.saveData(
-                  key: 'token', value: state.loginModel.data!.token);
-              navigetorAndFinish(context, ShopLayout_Screen());
+                      key: 'token', value: state.loginModel.data!.token)
+                  .then((value) {
+                token = state.loginModel.data!.token;
+                navigetorAndFinish(context, ShopLayout_Screen());
+              });
             } else {
               showTost(msg: state.loginModel.message!, state: TostState.ERROR);
               print(state.loginModel.message!);

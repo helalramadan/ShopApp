@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/models/shophomemodel.dart';
+import 'package:shopapp/shared/companent.dart';
 import 'package:shopapp/shared/stayle/colors.dart';
 import 'package:shopapp/shop_cubit/shopcubit.dart';
 import 'package:shopapp/shop_cubit/shopstate.dart';
@@ -12,7 +13,13 @@ class ShopHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ShopFavoritesSuccessState) {
+          if (!(state.model.status!)) {
+            showTost(msg: state.model.message!, state: TostState.ERROR);
+          }
+        }
+      },
       builder: (context, state) {
         var cubit = ShopCubit.get(context);
         return ConditionalBuilder(
@@ -130,11 +137,15 @@ class ShopHome extends StatelessWidget {
                       const Spacer(),
                       IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: () {
+                            ShopCubit.get(context).changeFavorites(model.id!);
+                            print(model.id!);
+                          },
                           icon: CircleAvatar(
                             radius: 15.0,
                             backgroundColor:
-                                ShopCubit.get(context).favorits.
+                                ShopCubit.get(context).favorites[model.id] !=
+                                        false
                                     ? defaultColor
                                     : Colors.grey,
                             child: Icon(

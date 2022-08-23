@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/login/logincubit/shopstate.dart';
+import 'package:shopapp/models/register_model.dart';
 import 'package:shopapp/models/shoploginmodels.dart';
 
 import '../../shared/dio_helper.dart';
@@ -29,6 +30,32 @@ class ShopeLoginCubit extends Cubit<ShopeLoginState> {
     }).catchError((error) {
       print(error.toString());
       emit(loginErrorState(error.toString()));
+    });
+  }
+
+  ShopRegisterModels? registerModel;
+  void userRegister({
+    required String name,
+    required String email,
+    required String phone,
+    required String password,
+  }) {
+    emit(RegisterLoadingState());
+    DioHelper.postData(url: REGISTER, data: {
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'password': password
+    }).then((value) {
+      print(value.data);
+      registerModel = ShopRegisterModels.fromJson(value.data);
+      // print(loginModel!.state);
+      // print(loginModel!.message);
+      // print(loginModel!.data!.token);
+      emit(RegisterSuccessState(registerModel!));
+    }).catchError((error) {
+      print(error.toString());
+      emit(RegisterErrorState(error.toString()));
     });
   }
 

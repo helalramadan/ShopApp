@@ -48,7 +48,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => ShopCubit()
               ..getHomeModel()
-              ..getcategoresModel())
+              ..getcategoresModel()
+              ..favoritesGetModel()
+              ..GetUserModels())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
