@@ -77,3 +77,15 @@ class ShopUpdateUserErrorState extends ShopState {
 
   ShopUpdateUserErrorState(this.error);
 }
+
+class InitialSearchState extends ShopState {}
+
+class LoadingSearchState extends ShopState {}
+
+class SuccessSearchState extends ShopState {}
+
+class ErrorSearchState extends ShopState {
+  final String error;
+
+  ErrorSearchState(this.error);
+}

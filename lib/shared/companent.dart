@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shopapp/shared/stayle/colors.dart';
+import 'package:shopapp/shop_cubit/shopcubit.dart';
 
 Future navigetorAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
@@ -18,21 +20,21 @@ Widget defultTextForm({
   Function? onTap,
   Function? onChange,
   Function? onSubmet,
-  Function? validator,
+  required Function validator,
   Function? suffixPressed,
   required String lable,
   required IconData prefix,
   IconData? suffix,
-  required bool isPass,
+  bool? isPass,
 }) =>
     TextFormField(
       controller: textController,
       keyboardType: type,
-      obscureText: isPass,
+      obscureText: isPass!,
       onTap: onTap != null ? onTap() : null,
       onChanged: onChange != null ? (s) => onChange(s) : null,
       onFieldSubmitted: onSubmet != null ? (s) => onSubmet(s) : null,
-      validator: (value) => validator!(value),
+      validator: (value) => validator(value),
       decoration: InputDecoration(
         label: Text(lable),
         prefixIcon: Icon(prefix),
@@ -105,3 +107,96 @@ Color changeColor(TostState state) {
   }
   return color;
 }
+
+Widget ListProdectItem(model, context) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        height: 200.0,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(alignment: AlignmentDirectional.bottomStart, children: [
+              Image(
+                height: 200.0,
+                image: NetworkImage(model.product!.image!),
+                // fit: BoxFit.cover,
+                width: 200,
+              ),
+              if (model.product!.discount != 0)
+                Container(
+                  color: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Text(
+                    'discount'.toUpperCase(),
+                    style: const TextStyle(color: Colors.white, fontSize: 8.0),
+                  ),
+                )
+            ]),
+            const SizedBox(
+              width: 20.0,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.product!.name!,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      height: 1.6,
+                    ),
+                  ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      Text(
+                        model.product!.price.toString(),
+                        style: const TextStyle(
+                          color: defaultColor,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      if (model.product!.discount != 0)
+                        Text(
+                          model.product!.oldPrice!.toString(),
+                          style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                      const Spacer(),
+                      IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            ShopCubit.get(context)
+                                .changeFavorites(model.product!.id!);
+                            print(model.id!);
+                          },
+                          icon: CircleAvatar(
+                            radius: 15.0,
+                            backgroundColor: ShopCubit.get(context)
+                                        .favorites[model.product!.id] ==
+                                    true
+                                ? defaultColor
+                                : Colors.grey,
+                            child: Icon(
+                              color: Colors.white,
+                              Icons.favorite_border,
+                              size: 16.0,
+                            ),
+                          ))
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );

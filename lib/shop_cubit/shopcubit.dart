@@ -7,6 +7,7 @@ import 'package:shopapp/bottomnavgator_screen/shophome.dart';
 import 'package:shopapp/models/catgors_model.dart';
 import 'package:shopapp/models/favoritesmodel.dart';
 import 'package:shopapp/models/favorithomemodel.dart';
+import 'package:shopapp/models/searchmodel.dart';
 import 'package:shopapp/models/shophomemodel.dart';
 import 'package:shopapp/models/shoploginmodels.dart';
 import 'package:shopapp/shared/dio_helper.dart';
@@ -150,6 +151,22 @@ class ShopCubit extends Cubit<ShopState> {
       emit(
         ShopUpdateUserErrorState(error.toString()),
       );
+    });
+  }
+
+  SeaechModel? model;
+  void searchModel(String text) {
+    emit(LoadingSearchState());
+    DioHelper.postData(url: SEARCH, token: token, data: {
+      'text': text,
+    }).then((value) {
+      model = SeaechModel.fromJson(value.data);
+      print('Search Done');
+      emit(SuccessSearchState());
+    }).catchError((error) {
+      print('Search have Problem');
+      print(error.toString());
+      emit(ErrorSearchState(error.toString()));
     });
   }
 }
